@@ -1,0 +1,336 @@
+{
+	"info": {
+		"_postman_id": "f12cb267-88a8-44ef-8276-dcbc2479d9bb",
+		"name": "Assignment",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "assignment",
+			"item": [
+				{
+					"name": "Get Users",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"To Verify if Status Code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Body matches string\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"pages\");\r",
+									"});\r",
+									"var respBody=JSON.parse(pm.response.text());\r",
+									"var pages=respBody.meta.pagination.pages;\r",
+									"console.log(pages);\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"console.log(\"Starting the Test\")\r",
+									"\r",
+									"postman.setEnvironmentVariable(\"name\",\"Akhil\");\r",
+									"\r",
+									"postman.setEnvironmentVariable(\"email\", \"akhil998@gmail.com\");\r",
+									"pm.collectionVariables.set(\"url\", \"https://gorest.co.in/public/v1\");\r",
+									"\r",
+									"postman.setGlobalVariable(\"status\", \"active\");\r",
+									"\r",
+									"pm.collectionVariables.set(\"accesstoken\", \"Bearer 4dd54d9e6f9c85a759807741ffcacf2f5eea09b17311088dc9b1137b91322b8e\");\r",
+									"\r",
+									"console.log(postman.getEnvironmentVariable(\"name\"));\r",
+									"\r",
+									"console.log(postman.getEnvironmentVariable(\"email\"));\r",
+									"\r",
+									"console.log(postman.getGlobalVariable(\"status\"));\r",
+									"\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/users",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create User",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"console.log(\"Starting the Test\")"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"To Verify if Status Code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"var respBody=JSON.parse(pm.response.text());\r",
+									"var gender=respBody.data.gender;\r",
+									"\r",
+									"console.log(gender);\r",
+									"var id= respBody.data.id;\r",
+									"pm.collectionVariables.set(\"id\", id);\r",
+									"\r",
+									"pm.test(\"To Check data present in respBody\", function () {\r",
+									" var jsonData = pm.response.json();\r",
+									"pm.expect(jsonData.data.status).to.eql(\"active\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "{{accesstoken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"name\":\"HelloJava\",\"email\":\"hello22@gmail.com\",\"gender\":\"male\",\"status\":\"inactive\"}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/users",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete User",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"console.log(\"Starting the Test\")"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"To Verify if Status Code is 204\", function () {\r",
+									"    pm.response.to.have.status(204);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{accesstoken}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/users/{{id}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"users",
+								"{{id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update a User",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"console.log(\"Starting the Test\")"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"To Verify if Status Code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Body matches string\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"id\");\r",
+									"});\r",
+									"var respBody=JSON.parse(pm.response.text());\r",
+									"var name=respBody.data.name;\r",
+									"console.log(name);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{accesstoken}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n         \r\n            \"name\": \"Python\",\r\n            \"email\": \"python@1629370798567sce.com\",\r\n            \"gender\": \"male\",\r\n            \"status\": \"inactive\"\r\n        }"
+						},
+						"url": {
+							"raw": "{{url}}/users/{{id}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"users",
+								"{{id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get a particular User",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"console.log(\"Starting the test\")"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"To Verify if Status Code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Body matches string\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"gender\");\r",
+									"});\r",
+									"var respBody=JSON.parse(pm.response.text());\r",
+									"var email=respBody.data.email;\r",
+									"console.log(email);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/users/{{id}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"users",
+								"{{id}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "id",
+			"value": ""
+		},
+		{
+			"key": "accesstoken",
+			"value": "Bearer 4dd54d9e6f9c85a759807741ffcacf2f5eea09b17311088dc9b1137b91322b8e"
+		},
+		{
+			"key": "accesstoken",
+			"value": ""
+		},
+		{
+			"key": "url",
+			"value": ""
+		}
+	]
+}
